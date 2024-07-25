@@ -1,19 +1,42 @@
 const telegramBot = require('node-telegram-bot-api');
 //const fs = require('fs');
+const supabase = require('@supabase/supabase-js')
+const express = require('express')
+const bodyParser = require('body-parser')
 require('dotenv').config()
+const { Telegraf, Markup } = require('telegraf');
+
+
 
 const token = process.env.TOKEN;
-
+const SupabaseUrl = process.env.SUPERBASEURL;
+const SupabaseKey = process.env.ANONKEY;
+const SupabaseClient = supabase.createClient(SupabaseUrl,SupabaseKey)
 const bot = new telegramBot(token,{polling:true})
+const bot1 = new Telegraf(process.env.REACT_APP_TELEGRAM_BOT_TOKEN);
 
-bot.on('message', (message) => {
+const app = express()
+
+app.use(bodyParser.json())
+bot.on('message', async (message) => {
     let chatID = message.from.id
-    console.log(message.text)
-
-
-    if(message.text === '/start') {
+    const invite = message.chat.invite_link
+    const text = message.text;
+    
+    if(text.startsWith('/start')) {
+        const userRef = message.from.id
+        const refId =  text.split(' ')[1];
+        console.log(refId,userRef)
+        if(refId !== undefined) {
+          try {
+            const {error, data} = await SupabaseClient
+            .from('Users')
+          } catch (error) {
+            
+          }
+        }
         bot.sendPhoto(chatID,'https://solana-wallet-orcin.vercel.app/assets/new.png',{
-            'caption': `Hey  ${message.from.username}  👩🏽‍🚀 Welcome to InFuse Wallet!                                                InFuseWallet is the First Multichain Web3 Non-Custodial Wallet on tg`,
+            'caption': `Hey  ${message.from.username}  👩🏽‍🚀 Welcome to InFuse Wallet! reffered by ${refId}                                                InFuseWallet is the First Multichain Web3 Non-Custodial Wallet on tg`,
             "reply_markup": {
               "resize_keyboard": 'true',
               "inline_keyboard": [
@@ -55,3 +78,4 @@ bot.on('message', (message) => {
     }
 
 })
+app.listen(3004,() => console.log('listening to port 3000') )
