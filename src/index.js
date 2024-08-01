@@ -69,7 +69,10 @@ bot.on('message', async (message) => {
           }
         }
         bot.sendPhoto(chatID,'https://solana-wallet-orcin.vercel.app/assets/new.png',{
-            'caption': `Hey  ${message.from.username}  👩🏽‍🚀 Welcome to InFuse Wallet!                                                                                                                                                           The First Multichain Web3 Non-Custodial Wallet on Telegram, Save, Transfer, Stake, Bridge Your Tokens Accross Ton,Ethereum and Solana.                                                                                                                                                                                      Its Fuse Earning Time! Start Farming Fuse Points now!                                                                                                  You got Frens Plug 'Em in Earn Fuse 2gether!!`                                                                                ,
+            'caption': `Hey  ${message.from.username}  👩🏽‍🚀 Welcome to InFuse Wallet!                                                                                                           
+                                                            The First Multichain Web3 Non-Custodial Wallet on Telegram, Save, Transfer, Stake, Bridge Your Tokens Accross Ton,Ethereum and Solana.                                                                                                            
+                                                                                                                                      Its Fuse Earning Time! Start Farming Fuse Points now!          
+                                                                                                                                                                                                                              You got Frens Plug 'Em in Earn Fuse 2gether!!`                                                                                ,
             "reply_markup": {
               "resize_keyboard": 'true',
               "inline_keyboard": [
