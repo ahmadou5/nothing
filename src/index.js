@@ -55,7 +55,7 @@ bot.on('message', async (message) => {
             console.log('starting')
             const {data, error} = await SupabaseClient
             .from('Users')
-            .update({ refferals: [{users},{ user:message.from.username.toString() }] })
+            .update({ refferals: [{ user:message.from.username.toString() }] })
             .eq('id',refId)
 
             if(data) {
@@ -69,7 +69,7 @@ bot.on('message', async (message) => {
           }
         }
         bot.sendPhoto(chatID,'https://solana-wallet-orcin.vercel.app/assets/new.png',{
-            'caption': `Hey  ${message.from.username}  👩🏽‍🚀 Welcome to InFuse Wallet! reffered by ${refId}                                                InFuseWallet is the First Multichain Web3 Non-Custodial Wallet on tg`,
+            'caption': `Hey  ${message.from.username}  👩🏽‍🚀 Welcome to InFuse Wallet!                                                The First Multichain Web3 Non-Custodial Wallet on Telegram`,
             "reply_markup": {
               "resize_keyboard": 'true',
               "inline_keyboard": [
