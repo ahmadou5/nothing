@@ -14,7 +14,7 @@ const SupabaseKey = process.env.ANONKEY;
 const SupabaseClient = supabase.createClient(SupabaseUrl,SupabaseKey)
 const bot = new telegramBot(token,{polling:true})
 const bot1 = new Telegraf(process.env.REACT_APP_TELEGRAM_BOT_TOKEN);
-
+const port = process.env.PORT
 const app = express()
 
 app.use(bodyParser.json())
@@ -26,13 +26,46 @@ bot.on('message', async (message) => {
     if(text.startsWith('/start')) {
         const userRef = message.from.id
         const refId =  text.split(' ')[1];
-        console.log(refId,userRef)
-        if(refId !== undefined) {
+        const users = [];
+        const getRef = async() => {
           try {
-            const {error, data} = await SupabaseClient
+            const {data, error} = await SupabaseClient
             .from('Users')
+            .select('*')
+            .eq('id',refId)
+
+            if(data) {
+              console.log(data,'111')
+              users = data[0].refferals
+              return data[0].refferals
+            }
+            if(error) {
+              console.log(error,'222')
+            }
+
           } catch (error) {
             
+          }
+        }
+        getRef()
+        console.log(refId,userRef,users)
+        console.log(getRef)
+        if(refId) {
+          try {
+            console.log('starting')
+            const {data, error} = await SupabaseClient
+            .from('Users')
+            .update({ refferals: [{users},{ user:message.from.username.toString() }] })
+            .eq('id',refId)
+
+            if(data) {
+              console.log(data)
+            }
+            if(error) {
+              throw error
+            }
+          } catch (error) {
+            console.log(error)
           }
         }
         bot.sendPhoto(chatID,'https://solana-wallet-orcin.vercel.app/assets/new.png',{
@@ -78,4 +111,4 @@ bot.on('message', async (message) => {
     }
 
 })
-app.listen(3004,() => console.log('listening to port 3000') )
+app.listen(port,() => console.log(`listening to port ${port}`) )
