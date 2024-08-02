@@ -55,7 +55,7 @@ bot.on('message', async (message) => {
             console.log('starting')
             const {data, error} = await SupabaseClient
             .from('Users')
-            .update({ refferals: [{ user:message.from.username.toString() }] })
+            .update({ refferals: [{ user:array_affend(message.from.username.toString()) }] })
             .eq('id',refId)
 
             if(data) {
