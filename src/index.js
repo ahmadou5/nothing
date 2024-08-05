@@ -13,13 +13,24 @@ const token = process.env.TOKEN;
 const SupabaseUrl = process.env.SUPERBASEURL;
 const SupabaseKey = process.env.ANONKEY;
 const SupabaseClient = supabase.createClient(SupabaseUrl,SupabaseKey)
-const bot = new telegramBot(token, {polling : true, })
+const bot = new telegramBot(token, {polling : true, request: {
+    url: 'https://localhost:3001',
+		agentClass: Agent,
+		agentOptions: {
+			socksHost: 'http://google.com',
+			socksPort: 8080,
+			// If authorization is needed:
+			// socksUsername: process.env.PROXY_SOCKS5_USERNAME,
+			// socksPassword: process.env.PROXY_SOCKS5_PASSWORD
+		}}})
 const bot1 = new Telegraf(token);
 const port = process.env.PORT
 const app = express()
 
 app.use(bodyParser.json())
-
+app.get('/', (req,res) => {
+  res.send('Hello from DB')
+})
 bot.on('message', async (message) => {
   try {
     
