@@ -2,6 +2,7 @@ const telegramBot = require('node-telegram-bot-api');
 //const fs = require('fs');
 const supabase = require('@supabase/supabase-js')
 const express = require('express')
+const Agent = require('socks5-https-client/lib/Agent')
 const bodyParser = require('body-parser')
 require('dotenv').config()
 const { Telegraf, Markup } = require('telegraf');
@@ -12,51 +13,33 @@ const token = process.env.TOKEN;
 const SupabaseUrl = process.env.SUPERBASEURL;
 const SupabaseKey = process.env.ANONKEY;
 const SupabaseClient = supabase.createClient(SupabaseUrl,SupabaseKey)
-const bot = new telegramBot(token,{polling:true})
-const bot1 = new Telegraf(process.env.REACT_APP_TELEGRAM_BOT_TOKEN);
+const bot = new telegramBot(token, {polling : true, })
+const bot1 = new Telegraf(token);
 const port = process.env.PORT
 const app = express()
 
 app.use(bodyParser.json())
+
 bot.on('message', async (message) => {
+  try {
+    
     let chatID = message.from.id
-    const invite = message.chat.invite_link
+    //const invite = message.chat.invite_link
     const text = message.text;
     
     if(text.startsWith('/start')) {
         const userRef = message.from.id
-        const refId =  text.split(' ')[1];
-        const users = [];
-        const getRef = async() => {
-          try {
-            const {data, error} = await SupabaseClient
-            .from('Users')
-            .select('*')
-            .eq('id',refId)
-
-            if(data) {
-              console.log(data,'111')
-              users = data[0].refferals
-              return data[0].refferals
-            }
-            if(error) {
-              console.log(error,'222')
-            }
-
-          } catch (error) {
-            
-          }
-        }
-        getRef()
-        console.log(refId,userRef,users)
-        console.log(getRef)
-        if(refId) {
+        const refID =  text.split(' ')[1];
+       
+        console.log(refID,userRef)
+      
+        if(refID) {
           try {
             console.log('starting')
             const {data, error} = await SupabaseClient
-            .from('Users')
-            .update({ refferals: [{ user:array_affend(message.from.username.toString()) }] })
-            .eq('id',refId)
+            .from('refferal')
+            .insert([{ refkey : `${refID}-${message.from.username}`, refId:`${refID}`, referId: `${message.from.id}` }])
+            .select('*')
 
             if(data) {
               console.log(data)
@@ -113,5 +96,8 @@ bot.on('message', async (message) => {
         bot.sendMessage(chatID,'You Have 1000 SOL')
     }
 
+  } catch (error) {
+    console.log(error,'werror')
+  }
 })
 app.listen(port,() => console.log(`listening to port ${port}`) )
