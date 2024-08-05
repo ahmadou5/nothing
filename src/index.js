@@ -39,8 +39,8 @@ bot.on('message', async (message) => {
           try {
             console.log('starting')
             const {data, error} = await SupabaseClient
-            .from('refferal')
-            .insert([{ refkey : `${refID}-${message.from.username}`, refId:`${refID}`, referId: `${message.from.id}` }])
+            .from('referral')
+            .insert([{ refKey : `${refID}-${message.from.username}`, refId:`${refID}`, referId: `${message.from.id}` }])
             .select('*')
 
             if(data) {
