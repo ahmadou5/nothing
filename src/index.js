@@ -20,7 +20,7 @@ const app = express()
 
 app.use(bodyParser.json())
 app.get('/', (req,res) => {
-  res.send('Hello from DB')
+  res.send('Hello from DoB')
 })
 bot.on('message', async (message) => {
   try {
