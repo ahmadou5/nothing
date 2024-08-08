@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js",
+    "vercel-build": "echo hello",
     "dev": "nodemon src/index.js"
   },
   "author": "ahmadou5",
@@ -19,6 +20,7 @@
     "node-telegram-bot-api": "^0.66.0",
     "nodemon": "^3.1.4",
     "socks5-https-client": "^1.2.1",
-    "telegraf": "^4.16.3"
+    "telegraf": "^4.16.3",
+    "vercel": "^35.2.3"
   }
 }
