@@ -8,9 +8,9 @@ yarn-error.log*
 lerna-debug.log*
 
 # Dependency directories
-node_modules/
-jspm_packages/
-dist/
+/node_modules
+/jspm_packages
+/dist
 # package-lock.json (NOTE: Lekan - removed so that we can use the github action/runner since it is a required file)
 
 # TypeScript v1 declaration files
