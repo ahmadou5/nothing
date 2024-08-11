@@ -8,14 +8,7 @@ export class TelegramService {
     // console.log('tg request', payload)
     // console.log('text', text)
 
-    switch (text) {
-      case '/start':
-        await startCommand(payload)
-        break
-      case '/balance':
-        await balanceCommand(payload)
-        break
-      default:
-    }
+    if (text?.startsWith('/start')) await startCommand(payload)
+    else if (text === '/balance') await balanceCommand(payload)
   }
 }
