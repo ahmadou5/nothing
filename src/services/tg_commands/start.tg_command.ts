@@ -12,7 +12,7 @@ export const startCommand = async (payload: any) => {
 
     const refID = payload?.message?.text.split(' ')[1]
 
-    console.log(refID, chat_id)
+    // console.log(refID, chat_id)
 
     if (refID) {
       await referralModel.insert({
