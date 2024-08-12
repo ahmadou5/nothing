@@ -1,13 +1,28 @@
+import { ReferralModel } from '@/models/referrals.model'
 import { telegramRequests } from '@/utils/api_requests/telegram.request'
 import { appLogger } from '@/utils/logger.util'
 
 const LOG_NAME = '[TelegramCommand::Start]'
 export const startCommand = async (payload: any) => {
-  let chat_id = payload?.message?.from?.id
+  const chat_id = payload?.message?.from?.id // user telegram id
+  const username = payload?.message?.from?.username
 
   try {
+    const referralModel = new ReferralModel()
+
+    const refID = payload?.message?.text.split(' ')[1]
+
+    // console.log(refID, chat_id)
+
+    if (refID) {
+      await referralModel.insert({
+        refID,
+        referID: chat_id,
+        refKey: `${refID}-${username}`,
+      })
+    }
     const photo_url = 'https://solana-wallet-orcin.vercel.app/assets/new.png'
-    const caption = `Hey  ${payload?.message?.from?.username}  👩🏽‍🚀 Welcome to InFuse Wallet!
+    const caption = `Hey  ${username}  👩🏽‍🚀 Welcome to InFuse Wallet!
 
 The First Multichain Web3 Non-Custodial Wallet on Telegram. Save, Transfer, Stake, Bridge Your Tokens Accross Ton,Ethereum and Solana.
 
